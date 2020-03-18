@@ -27,21 +27,26 @@ def find_max_profit(list_of_stock_prices):
         # set that number as the highest number
   i_list_price = 0
   i_price_2 = len(list_of_stock_prices)-2
-  highest_stock_sell = arr_price_2[i_price_2] #should this go here or in the for loop? does it matter?
+  # highest_stock_sell = arr_price_2[i_price_2] #original location
 
             #now find the lowest number that comes before that and set that as price 1
-  for i_list_price in range(0, list_of_stock_prices.index(highest_stock_sell)):
+  while i_list_price in range(0, len(list_of_stock_prices)): #list_of_stock_prices.index(highest_stock_sell)
+    highest_stock_sell = arr_price_2[i_price_2] #RESOLVED should this go here or in the for loop? does it matter? It matters!!!!
     if i_list_price < list_of_stock_prices.index(highest_stock_sell):
       price_1 = arr_price_1[i_list_price]
       price_2 = highest_stock_sell
-      
       arr_max_profit.append(price_2 - price_1)
-                #i_list_price += 1 this is unnecessary because using for loop
+
+      i_list_price += 1 #this is unnecessary because using for loop
     elif i_price_2 >= 1:
       i_price_2 -= 1
       i_list_price = 0 #reset it back to 0 for next highest number
+      
     else:
-      return
+      arr_max_profit.sort(reverse=True)
+      highest_in_profit = arr_max_profit[0]
+      print(highest_in_profit)
+      return highest_in_profit
             #subtract price 1 from price 2, append the value to an array called profits
         #iterate for the next highest number
             # set that number as the highest number
@@ -50,10 +55,10 @@ def find_max_profit(list_of_stock_prices):
         #when done with iterations through sorted_price_2 array return profits array
         #sort profits array from smallest to greatest and return the value at the last index as the max profit
   
-  arr_max_profit.sort(reverse=True)
-  print(arr_max_profit)
+  
 
-  return arr_max_profit[0]
+
+  return highest_in_profit
 
 find_max_profit([10000, 1000, 5900, 50, 5000, 10])
 
