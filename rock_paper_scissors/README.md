@@ -10,6 +10,82 @@ For example, given n = 2, your function should output the following:
 
 Your output should be a list of lists containing strings. Each inner list should have length equal to the input n.
 
+n number of plays
+list of possible plays:
+[['rock'], ['paper'], ['scissors']]
+
+at 1 play:
+[['rock'], ['paper'], ['scissors']]
+
+at 2 plays:
+[
+    ['rock', 'rock'], ['rock', 'paper'], ['rock', 'scissors'],    
+    ['paper', 'rock'], ['paper', 'paper'], ['paper', 'scissors'],
+    ['scissors', 'rock'], ['scissors', 'paper'], ['scissors', 'scissors']]
+
+at 3 plays:
+[
+    ['rock', 'rock', 'rock'], ['rock', 'paper', 'rock'], ['rock', 'scissors', 'rock'],
+    ['rock', 'rock', 'paper'], ['rock', 'paper', 'paper'], ['rock', 'scissors', 'paper'],
+    ['rock', 'rock', 'scissors'], ['rock', 'paper', 'scissors'], ['rock', 'scissors', 'scissors'],
+
+    ['paper', 'rock', 'rock'], ['paper', 'paper', 'rock'], ['paper', 'scissors', 'rock'],
+    ['paper', 'rock', 'paper'], ['paper', 'paper', 'paper'], ['paper', 'scissors', 'paper'],
+    ['paper', 'rock', 'scissors'], ['paper', 'paper', 'scissors'], ['paper', 'scissors', 'scissors'],
+
+    ['scissors', 'rock', 'rock'], ['scissors', 'paper', 'rock'], ['scissors', 'scissors', 'rock']
+    ['scissors', 'rock', 'paper'], ['scissors', 'paper', 'paper'], ['scissors', 'scissors', 'paper']
+    ['scissors', 'rock', 'scissors'], ['scissors', 'paper', 'scissors'], ['scissors', 'scissors', 'scissors']
+    
+    ]
+
+the pattern for the outer list is the last amount of them (n-1) multiplied by 3 
+    for each list in list(n-1):
+        addedRock = []
+        addedRock.append([list.copy() + ['rock']])
+
+        addedPaper = []
+        addedPaper.append([list.copy() + ['paper']])
+
+        addedScissors = []
+        addedScissors.append(list.copy() + ['scissors'])
+
+        list = addedRock + addedPaper + addedScissors
+    return list
+    we need the previous list before we can finish the for
+
+    and our base case is list[1]:
+        return [['rock'], ['paper'], ['scissors']]
+    also, list[0]:
+        return [[]]
+the pattern for the inner list is n
+
+
+
+if n == 0:
+    return [[]]
+else:
+    addLists(n)
+
+
+def addLists(plays):
+    if plays == 1:
+        return [['rock'], ['paper'], ['scissors']]
+    else:
+        previousList = addLists(plays - 1)
+        for outcomeList in previousList:
+            addedRock = []
+            addedRock.append([outcomeList.copy() + ['rock']])
+
+            addedPaper = []
+            addedPaper.append([outcomeList.copy() + ['paper']])
+
+            addedScissors = []
+            addedScissors.append(outcomeList.copy() + ['scissors'])
+
+            outcomeList = addedRock + addedPaper + addedScissors
+    return outcomeList
+
 ## Testing
 
 Run the test file by executing `python test_rps.py`.
