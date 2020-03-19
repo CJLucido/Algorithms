@@ -46,7 +46,7 @@ def find_max_profit(list_of_stock_prices):
       arr_max_profit.sort(reverse=True)
       highest_in_profit = arr_max_profit[0]
       print(highest_in_profit)
-      return highest_in_profit
+      return highest_in_profit #this return will actually exit the program so had to process the array here instead of after
             #subtract price 1 from price 2, append the value to an array called profits
         #iterate for the next highest number
             # set that number as the highest number
@@ -63,13 +63,13 @@ def find_max_profit(list_of_stock_prices):
 find_max_profit([10000, 1000, 5900, 50, 5000, 10])
 
 
-# if __name__ == '__main__':
-#   # This is just some code to accept inputs from the command line
-#   parser = argparse.ArgumentParser(description='Find max profit from prices.')
-#   parser.add_argument('integers', metavar='N', type=int, nargs='+', help='an integer price')
-#   args = parser.parse_args()
+if __name__ == '__main__':
+  # This is just some code to accept inputs from the command line
+  parser = argparse.ArgumentParser(description='Find max profit from prices.')
+  parser.add_argument('integers', metavar='N', type=int, nargs='+', help='an integer price')
+  args = parser.parse_args()
 
-#   print("A profit of ${profit} can be made from the stock prices {prices}.".format(profit=find_max_profit(args.integers), prices=args.integers))
+  print("A profit of ${profit} can be made from the stock prices {prices}.".format(profit=find_max_profit(args.integers), prices=args.integers))
 
 
   
