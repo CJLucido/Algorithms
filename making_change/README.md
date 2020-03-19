@@ -9,6 +9,15 @@ out exactly how many ways there are to make change for the amount of money they
 plopped down in front of you using only pennies, nickels, dimes, quarters, and
 half-dollars. 
 
+pennies
+nickels
+dimes
+quarters
+half-dollars
+
+def making_change(input_in_cents, arr_of_coin_denominations):
+  calculate total ways to make change with the given coin denominations
+
 Since this is a bank, you have an infinite supply of coinange. Write a function
 `making_change` that receives as input an amount of money in cents as well as an
 array of coin denominations and calculates the total number of ways in which
@@ -21,6 +30,167 @@ change for 10 cents using pennies, nickels, dimes, quarters, and half-dollars:
  2. We can use 5 pennies and a nickel
  3. We can use 2 nickels
  4. We can use a single dime
+
+for 0:
+there is 1 way to return change (no change)
+for 1:
+there is 1 way to return change (only a penny)
+for 2:
+there is 1 way to return change (only pennies)
+for 3:
+there is 1 way to return change (only pennies)
+for 4:
+there is 1 way to return change (only pennies)
+for 5:
+there are 2 ways to return change (pennies or a nickel)
+for 6:
+there is 2 ways to return change (pennies or penny and a nickel)
+for 7:
+there is 2 ways to return change (pennies or pennies and a nickel)
+for 8:
+there is 2 ways to return change (pennies or pennies and a nickel)
+for 9:
+there is 2 ways to return change (pennies or pennies and a nickel)
+for 10:
+there is 4 ways to return change (pennies, pennies and a nickel, nickels, or dime)
+for 11:
+there is 4 ways to return change (pennies, pennies and a nickel, 2 nickels and penny, or dime and a penny)
+for 12:
+there is 4 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, or dime and pennies)
+for 13:
+there is 4 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, or dime and pennies)
+for 14:
+there is 4 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, or dime and pennies)
+for 15:
+there is 6 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, 3 nickels, dime and pennies, or dime and nickel)
+for 16:
+there is 6 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, 3 nickels and pennies, dime and pennies, or dime and nickel with penny)
+for 17:
+there is 6 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, 3 nickels and pennies, dime and pennies, or dime and nickel and pennies)
+for 18:
+there is 6 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, 3 nickels and pennies, dime and pennies, or dime and nickel and pennies)
+for 19:
+there is 6 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, 3 nickels and pennies, dime and pennies, or dime and nickel and pennies)
+for 20:
+there is 9 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, 3 nickels and pennies, 4 nickels, dime and pennies, dime and nickel and pennies, dime and 2 nickels, or 2 dimes)
+
+for 30:
+there is 18 ways to return change (pennies, pennies and a nickel, 2 nickels and pennies, 3 nickels and pennies, 4 nickels and pennies, 5 nickels and pennies, 6 nickels, dime and pennies, dime and nickel and pennies, dime and 2 nickels and pennies, dime and 3 nickels and pennies, dime and 4 nickels, 2 dimes and pennies, 2 dimes a nickel and pennies, 2 dimes and 2 nickels, 3 dimes, quarter and pennies, quarter and a nickel)
+
+
+patterns so far:
+  we always have the option of pennies
+  for every increment to the 5th position we add a nickel option
+  for every increment to the 10th position we add a dime option (and implicitly a nickel method)
+  we can probably assume that this pattern will happen for every 25th position, we add a quarter option (and implicitly a nickel option)
+  and also for every 50th position, we add a half-dollar option(and implicitly a quarter option, a dime option, and a nickel option)
+
+so we are always building on the last pattern BUT the options are only increasing if we have gone up by 5, 10, 25, or 50
+
+the nickel options increase in amount to the floored value of n / 5
+    so anything from 15 and 20 (exclusive) will have 3 nickel methods
+the dime options increase in amount to the floored value of n / 10 UNTIL hitting the next 5th position before the next tenth, at the midpoint (like 15) it adds another nickel option to the dime options
+    this means if the current position is divisible by 5 without a remainder but not by 10 without a remainder:
+        increase the nickel options by 1 extra
+        increase the dime option to the floored value of n/10 (to the flrd value, not by the flrd value)
+    else:
+        just increase dime options
+
+penny_possibilities = 0
+nickel_possibilities = 0
+dime_possibilities = 0
+quarter_possibilities = 0
+half_dollar_possibilities = 0
+
+if n == 0:
+  return 1
+elif n % 50 == 0:
+  increase penny possibilities to 1 
+  increase half-dollar possibilities TO n // 50
+  increase quarter possibilities TO n // 25
+  increase dime possibilities TO n//10 
+  increase nickel possibilities To n//5
+elif n % 25 == 0:
+  increase penny possibilities to 1 (not during recursion, would just be base case?)
+  increase quarter possibilities TO n // 25
+  increase dime possibilities TO n//10 (not during recursion)
+  increase nickel possibilities To n//5 + 1 (by + 1, in recursion)
+elif n % 10 == 0:
+  increase dime possibilities TO n//10
+  increase nickel possibilities TO n//5
+elif n % 5 == 0:
+  increase nickel possibilities To n//5 + 1 (by + 1, in recursion)
+elif n < 5:
+  increase penny possibilities to 1
+
+total_possibilities = penny_possibilities + nickel_possibilities + dime_possibilities + quarter_possibilities + half_dollar_possibilities 
+
+
+  penny_possibilities = 0
+  nickel_possibilities = 0
+  dime_possibilities = 0
+  quarter_possibilities = 0
+  half_dollar_possibilities = 0
+
+  if n == 0: (base case)
+    return 1
+  elif n < 5 and 1 in denominations: (base case)
+    penny_possibilities = 1
+    return penny_possibilities
+  elif n == 5 and 5 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = 1
+    return penny_possibilities + nickel_possibilities
+  elif n == 10 and 10 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = 2
+    dime_possibilities = 1
+    return penny_possibilities + nickel_possibilities + dime_possibilities
+  elif n == 25 and 25 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = 6
+    dime_possibilities = 6
+    quarter_possibilities = 1
+    return penny_possibilities + nickel_possibilities + dime_possibilities + quarter_possibilities
+  elif n == 50 and 50 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = 6
+    dime_possibilities = 6
+    quarter_possibilities = 1
+
+
+
+  if n % 50 == 0 and 50 in denominations:
+    penny_possibilities = 1 
+    half_dollar_possibilities = n//50
+    quarter_possibilities = n//25
+    dime_possibilities = n//10 
+    nickel_possibilities = n//5
+  elif n % 25 == 0 and 25 in denominations:
+    penny_possibilities = 1 
+    quarter_possibilities = n//25
+    dime_possibilities = n//10 
+    nickel_possibilities = (n//5) + 1 
+  elif n > 25 and n % 10 == 0 and 10 in denominations:
+    penny_possibilities = 1
+    quarter_possibilities = n//25 + # problem here, should be plus possibilities with lower denominations (too complicated for task at hand)
+    dime_possibilities = n//10 * n//10
+    nickel_possibilities = n//5
+  elif n % 10 == 0 and 10 in denominations:
+    penny_possibilities = 1
+    dime_possibilities = n//10 * n//10
+    nickel_possibilities = n//5
+  elif n > 5 and and n/5 != 2 and n % 5 == 0 and 5 in denominations:
+    nickel_possibilities = (n//5) + 1 
+
+  
+  print(  penny_possibilities, +\
+  nickel_possibilities, +\
+  dime_possibilities, +\
+  quarter_possibilities, +\
+  half_dollar_possibilities)
+  total_possibilities = penny_possibilities + nickel_possibilities + dime_possibilities + quarter_possibilities + half_dollar_possibilities 
+  return total_possibilities
 
 ## Testing 
 
@@ -83,3 +253,50 @@ making_change.py [amount]`
    different amounts using the current coin. At that point, all we have to do is
    perform that loop for every single coin, and then return the answer in our
    cache for the original amount!
+
+
+
+#FIRST PASS
+  penny_possibilities = 0
+  nickel_possibilities = 0
+  dime_possibilities = 0
+  quarter_possibilities = 0
+  half_dollar_possibilities = 0
+
+  if n == 0:
+    return 1
+  elif n % 50 == 0 and 50 in denominations:
+    penny_possibilities = 1 
+    half_dollar_possibilities = n//50
+    quarter_possibilities = n//25
+    dime_possibilities = n//10 
+    nickel_possibilities = n//5
+  elif n % 25 == 0 and 25 in denominations:
+    penny_possibilities = 1 
+    quarter_possibilities = n//25
+    dime_possibilities = n//10 
+    nickel_possibilities = (n//5) + 1 
+  elif n > 25 and n % 10 == 0 and 10 in denominations:
+    penny_possibilities = 1
+    quarter_possibilities = n//25 + # problem here, should be plus possibilities with lower denominations (too complicated for task at hand)
+    dime_possibilities = n//10 * n//10
+    nickel_possibilities = n//5
+  elif n % 10 == 0 and 10 in denominations:
+    penny_possibilities = 1
+    dime_possibilities = n//10 * n//10
+    nickel_possibilities = n//5
+  elif n > 5 and n % 5 == 0 and 5 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = (n//5) + 1 
+  elif n == 5 and 5 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = (n//5) 
+  elif n < 5 and 1 in denominations:
+    penny_possibilities = 1
+  print(  penny_possibilities, +\
+  nickel_possibilities, +\
+  dime_possibilities, +\
+  quarter_possibilities, +\
+  half_dollar_possibilities)
+  total_possibilities = penny_possibilities + nickel_possibilities + dime_possibilities + quarter_possibilities + half_dollar_possibilities 
+  return total_possibilities
