@@ -14,6 +14,16 @@ def dime_growth_rate(n):
     print(dime_possibilities)
   return dime_possibilities
 
+def quarter_growth_rate(n):
+  if n <= 25:
+    return 1
+  if n <= 50:
+    return 12
+  else:
+    quarter_possibilities = ((n//25)* 11) + quarter_growth_rate(n-25) + 1
+  print(quarter_possibilities)
+  return quarter_possibilities
+
 def making_change(n, denominations, cache=None):
   cache = {}
 
@@ -41,14 +51,14 @@ def making_change(n, denominations, cache=None):
     penny_possibilities = 1
     nickel_possibilities = 10
     dime_possibilities = 24
-    quarter_possibilities = 12
+    quarter_possibilities = quarter_growth_rate(n) #12
     half_dollar_possibilities= 1
     return 48
   elif n > 50 and n % 5 == 0 and n%10 == 0:
     penny_possibilities = 1
     nickel_possibilities = n//5 #(this is correct)
     dime_possibilities = dime_growth_rate(n) #THIS IS INACCURATE
-    quarter_possibilities = math.ceil(n/25)
+    quarter_possibilities = quarter_growth_rate(n)
     half_dollar_possibilities= math.ceil(n/50)
     return (1 + nickel_possibilities + dime_possibilities + quarter_possibilities + half_dollar_possibilities)
   elif n > 20 and n < 50 and n % 5 == 0 and n%10 == 0:
@@ -64,14 +74,14 @@ def making_change(n, denominations, cache=None):
     nickel_possibilities = n//5 #(this is correct)
     dime_possibilities = dime_growth_rate(n) #THIS IS INACCURATE can't forget the plus one for actually landing on the value (we aren't just increasing the amount of steps up)
 
-    # quarter_possibilities = 
+    quarter_possibilities = quarter_growth_rate(n)
     # half_dollar_possibilities= 
     return (1 + nickel_possibilities + dime_possibilities)
   elif n % 5 == 0 and n%10 != 0:
     penny_possibilities = 1
     nickel_possibilities = (n//5) + 1 #(this is correct)
     dime_possibilities = dime_growth_rate(n) #THIS IS INACCURATE unsure for these inbetween numbers
-    # quarter_possibilities = 
+    quarter_possibilities = quarter_growth_rate(n)
     # half_dollar_possibilities= 
     return (1 + nickel_possibilities + dime_possibilities)
   elif n in cache:
