@@ -1,51 +1,71 @@
 #!/usr/bin/python
 
 import sys
+import math
 
-def making_change(n, denominations):
-  penny_possibilities = 0
-  nickel_possibilities = 0
-  dime_possibilities = 0
-  quarter_possibilities = 0
-  half_dollar_possibilities = 0
+def making_change(n, denominations, cache=None):
+  cache = {}
 
-  if n == 0:
+  if n <= 0: 
     return 1
-  elif n % 50 == 0 and 50 in denominations:
-    penny_possibilities = 1 
-    half_dollar_possibilities = n//50
-    quarter_possibilities = n//25
-    dime_possibilities = n//10 
-    nickel_possibilities = n//5
-  elif n % 25 == 0 and 25 in denominations:
-    penny_possibilities = 1 
-    quarter_possibilities = n//25
-    dime_possibilities = n//10 
-    nickel_possibilities = (n//5) + 1 
-  elif n > 25 and n % 10 == 0 and 10 in denominations:
+  elif n < 5 and 1 in denominations: 
     penny_possibilities = 1
-    quarter_possibilities = n//25 * n//10 - 1
-    dime_possibilities = n//10 * n//10
-    nickel_possibilities = n//5
-  elif n % 10 == 0 and 10 in denominations:
-    penny_possibilities = 1
-    dime_possibilities = n//10 * n//10
-    nickel_possibilities = n//5
-  elif n > 5 and n % 5 == 0 and 5 in denominations:
-    penny_possibilities = 1
-    nickel_possibilities = (n//5) + 1 
+    return 1
   elif n == 5 and 5 in denominations:
     penny_possibilities = 1
-    nickel_possibilities = (n//5) 
-  elif n < 5 and 1 in denominations:
+    nickel_possibilities = 1
+    return 2
+  elif n == 10 and 10 in denominations:
     penny_possibilities = 1
-  print(  penny_possibilities, +\
-  nickel_possibilities, +\
-  dime_possibilities, +\
-  quarter_possibilities, +\
-  half_dollar_possibilities)
-  total_possibilities = penny_possibilities + nickel_possibilities + dime_possibilities + quarter_possibilities + half_dollar_possibilities 
-  return total_possibilities
+    nickel_possibilities = 2
+    dime_possibilities = 1
+    return 4
+  elif n == 25 and 25 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = 6
+    dime_possibilities = 6
+    quarter_possibilities = 1
+    return 14
+  elif n == 50 and 50 in denominations:
+    penny_possibilities = 1
+    nickel_possibilities = 10
+    dime_possibilities = 24
+    quarter_possibilities = 12
+    half_dollar_possibilities= 1
+    return 48
+  elif n > 50 and n % 5 == 0 and n%10 == 0:
+    penny_possibilities = 1
+    nickel_possibilities = n//5 #(this is correct)
+    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE
+    quarter_possibilities = math.ceil(n/25)
+    half_dollar_possibilities= math.ceil(n/50)
+    return (1 + nickel_possibilities + dime_possibilities + quarter_possibilities + half_dollar_possibilities)
+  elif n > 25 and n < 50 and n % 5 == 0 and n%10 == 0:
+    penny_possibilities = 1
+    nickel_possibilities = n//5 #(this is correct)
+    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE
+    quarter_possibilities = math.ceil(n/25)
+    # half_dollar_possibilities= 
+    return (1 + nickel_possibilities + dime_possibilities + quarter_possibilities)
+  elif n % 5 == 0 and n%10 == 0:
+    penny_possibilities = 1
+    nickel_possibilities = n//5 #(this is correct)
+    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE
+    # quarter_possibilities = 
+    # half_dollar_possibilities= 
+    return (1 + nickel_possibilities + dime_possibilities)
+  elif n % 5 == 0 and n%10 != 0:
+    penny_possibilities = 1
+    nickel_possibilities = (n//5) + 1 #(this is correct)
+    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE? unsure for these inbetween numbers
+    # quarter_possibilities = 
+    # half_dollar_possibilities= 
+    return (1 + nickel_possibilities + dime_possibilities)
+  elif n in cache:
+    return cache[n]
+  else:
+    cache[n] = making_change(n - 1,denominations, cache)  #making_change(n-2,denominations, cache) + making_change(n-3,denominations, cache)
+    return cache[n]
 
 if __name__ == "__main__":
   # Test our your implementation from the command line

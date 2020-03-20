@@ -154,9 +154,15 @@ total_possibilities = penny_possibilities + nickel_possibilities + dime_possibil
     return penny_possibilities + nickel_possibilities + dime_possibilities + quarter_possibilities
   elif n == 50 and 50 in denominations:
     penny_possibilities = 1
-    nickel_possibilities = 6
-    dime_possibilities = 6
-    quarter_possibilities = 1
+    nickel_possibilities = 10
+    dime_possibilities = 24
+    quarter_possibilities = 12
+    half_dollar_possibilities= 1
+    
+    P (penny possibilities is always 1)
+    NP, 2NP, 3NP, 4NP, 5NP, 6NP, 7NP, 8NP, 9NP, 10N (nickel possibilities are alway n//5, unless n %10 != 0)
+    DP, DNP, D2NP, D3NP, D4NP, D5NP, D6NP, D7NP, D8N, 2DP, 2DNP, 2D2NP, 2D3NP, 2D4NP, 2D5N, 3DP, 3DNP, 3D2NP, 3D3NP, 3D4N, 4DP, 4DNP, 4D2N, 5D
+    QP, QNP, Q2NP, Q3NP, Q4NP, Q5N, QDP, QDNP, QD2NP, QD3N, Q2DN, 2Q
 
 
 
