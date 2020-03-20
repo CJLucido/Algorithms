@@ -36,28 +36,30 @@ def making_change(n, denominations, cache=None):
   elif n > 50 and n % 5 == 0 and n%10 == 0:
     penny_possibilities = 1
     nickel_possibilities = n//5 #(this is correct)
-    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE
+    dime_possibilities = (n//10 + ((n-10)//10)) + (((n-10)/10) +((n-20)/10)) + 1 #THIS IS ACCURATE
     quarter_possibilities = math.ceil(n/25)
     half_dollar_possibilities= math.ceil(n/50)
     return (1 + nickel_possibilities + dime_possibilities + quarter_possibilities + half_dollar_possibilities)
-  elif n > 25 and n < 50 and n % 5 == 0 and n%10 == 0:
+  elif n > 20 and n < 50 and n % 5 == 0 and n%10 == 0:
     penny_possibilities = 1
     nickel_possibilities = n//5 #(this is correct)
-    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE
-    quarter_possibilities = math.ceil(n/25)
+    dime_possibilities = (n//10 + ((n-10)//10)) + (((n-10)/10) +((n-20)/10)) + 1 #THIS IS ACCURATE
+    quarter_possibilities = 2
+    print(dime_possibilities)
     # half_dollar_possibilities= 
     return (1 + nickel_possibilities + dime_possibilities + quarter_possibilities)
   elif n % 5 == 0 and n%10 == 0:
     penny_possibilities = 1
     nickel_possibilities = n//5 #(this is correct)
-    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE
+    dime_possibilities = ((n//10 + ((n-10)//10))) + 1 #THIS IS ACCURATE!!!! can't forget the plus one for actually landing on the value (we aren't just increasing the amount of steps up)
+
     # quarter_possibilities = 
     # half_dollar_possibilities= 
     return (1 + nickel_possibilities + dime_possibilities)
   elif n % 5 == 0 and n%10 != 0:
     penny_possibilities = 1
     nickel_possibilities = (n//5) + 1 #(this is correct)
-    dime_possibilities = n//10 + ((n-10)//10) #THIS IS ACCURATE? unsure for these inbetween numbers
+    dime_possibilities = (n//10 + ((n-10)//10)) #T(((n-H0)/10) +((n-20)/10)))IS IS ACCURATE? unsure for these inbetween numbers
     # quarter_possibilities = 
     # half_dollar_possibilities= 
     return (1 + nickel_possibilities + dime_possibilities)
